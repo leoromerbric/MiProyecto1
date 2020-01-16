@@ -1,0 +1,132 @@
+{
+  "EDITOR_STATE": {
+    "allProjectFiles": {
+      "27adfe66-b7be-492b-8aae-de94c3d4ec42": {
+        "id": "27adfe66-b7be-492b-8aae-de94c3d4ec42",
+        "parent": null,
+        "name": "MiProyecto1",
+        "type": "DIRECTORY",
+        "isDirectory": true,
+        "children": [
+          "f9baa113-b3d8-4a92-9be2-3ab184e78646"
+        ],
+        "isRemovable": false,
+        "filePath": "MiProyecto1"
+      },
+      "f9baa113-b3d8-4a92-9be2-3ab184e78646": {
+        "id": "f9baa113-b3d8-4a92-9be2-3ab184e78646",
+        "parent": "27adfe66-b7be-492b-8aae-de94c3d4ec42",
+        "name": "lambda.js",
+        "type": "JS_LAMBDA",
+        "isDirectory": false,
+        "children": [],
+        "isRemovable": true,
+        "filePath": "MiProyecto1/lambda.js",
+        "code": "let AWS = require('aws-sdk');\nconst sns = new AWS.SNS();\n\nexports.handler = function (event, context, callback) {\n\n\tlet receiver = event['receiver'];\n\tlet sender = event['sender'];\n\tlet message = event['message'];\n\n\tlet isPromotional = false;\n\n\tconsole.log(\"Sending message\", message, \"to receiver\", receiver);\n\n\tsns.publish({\n\t\tMessage: message,\n\t\tMessageAttributes: {\n\t\t\t'AWS.SNS.SMS.SMSType': {\n\t\t\t\tDataType: 'String',\n\t\t\t\tStringValue: 'Promotional'\n\t\t\t},\n\t\t\t'AWS.SNS.SMS.SenderID': {\n\t\t\t\tDataType: 'String',\n\t\t\t\tStringValue: sender\n\t\t\t},\n\t\t},\n\t\tPhoneNumber: receiver\n\t}).promise()\n\t\t.then(data => {\n\t\t\tconsole.log(\"Sent message to\", receiver);\n\t\t\tcallback(null, data);\n\t\t})\n\t\t.catch(err => {\n\t\t\tconsole.log(\"Sending failed\", err);\n\t\t\tcallback(err);\n\t\t});\n}",
+        "config": {
+          "runtime": "nodejs8.10",
+          "handler": "handler",
+          "timeout": 60,
+          "memory": 128,
+          "layers": []
+        },
+        "triggers": [
+          {
+            "resourceName": "apigusEast1SMSGatewaysendSMSpost",
+            "config": {}
+          }
+        ]
+      }
+    },
+    "rootNode": "27adfe66-b7be-492b-8aae-de94c3d4ec42",
+    "openFiles": [
+      "f9baa113-b3d8-4a92-9be2-3ab184e78646"
+    ],
+    "currentFileId": "f9baa113-b3d8-4a92-9be2-3ab184e78646",
+    "resources": {
+      "apigusEast1SMSGatewaysendSMSpost": {
+        "name": "apigusEast1SMSGatewaysendSMSpost",
+        "type": "API_GATEWAY",
+        "config": {
+          "selectedRegion": "us-east-1",
+          "apiMode": 0,
+          "apiName": "SMSGateway",
+          "endpointType": "EDGE",
+          "resourceMode": 0,
+          "resourceName": "sendSMS",
+          "resourcePath": "/sendSMS",
+          "restMethod": "POST",
+          "proxyIntegration": false,
+          "enableCORS": false,
+          "stageMode": 0,
+          "stageName": "prod",
+          "mode": 0
+        }
+      },
+      "snsDirectSMSResource": {
+        "name": "snsDirectSMSResource",
+        "type": "SNS",
+        "config": {
+          "snsType": 1,
+          "numbers": [
+            "@{receiver }"
+          ]
+        }
+      },
+      "snsusEast1SMSSender": {
+        "name": "snsusEast1SMSSender",
+        "type": "SNS",
+        "config": {
+          "topicMode": 0,
+          "topicName": "SMS_Sender",
+          "topicArn": "arn:aws:sns:us-east-1:456198190336:SMS_Sender",
+          "topicRegion": "us-east-1",
+          "snsType": 0,
+          "topicDisplayName": "SMS_Sender",
+          "subscriptions": []
+        }
+      }
+    },
+    "customTemplate": {
+      "dialect": null,
+      "definitions": null
+    },
+    "envVariables": [
+      {
+        "lambdaId": "all",
+        "varKey": "SIGMA_AWS_ACC_ID",
+        "varValue": null,
+        "shouldPersist": false,
+        "displayOnly": false,
+        "editable": false
+      }
+    ],
+    "packageJSON": {
+      "dependencies": {
+        "aws-sdk": {
+          "name": "aws-sdk",
+          "language": "javascript",
+          "version": "2.176.0",
+          "dev": true,
+          "notRemovable": false
+        }
+      }
+    }
+  },
+  "PROJECT_META": {
+    "projectName": "MiProyecto1",
+    "projectDescription": "MiProyecto1",
+    "projectVersion": "1.0.0",
+    "projectRegion": "us-east-1",
+    "platform": "AWS",
+    "platformRegions": {},
+    "lastSave": 1579194985928
+  },
+  "VCS_STATE": {
+    "provider": "GitHub",
+    "repo": {
+      "name": "MiProyecto1",
+      "url": "https://github.com/leoromerbric/MiProyecto1"
+    }
+  }
+}
